@@ -8,11 +8,36 @@ const routes: Routes = [
     path: '',
     component: TabsPage,
     children: [
-      { path: 'home', loadChildren: () => import('../home/home.module').then(m => m.HomePageModule) },
-      { path: 'search', loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule) },
-      { path: 'listas', loadChildren: () => import('../listas/listas.module').then(m => m.ListasPageModule) },
-      { path: 'perfil', loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule) },
-      { path: '', redirectTo: '/tabs/home', pathMatch: 'full' }
+      {
+        path: 'listas',
+        children: [
+          {
+            path: '',
+            loadChildren: () => import('../listas/listas.module').then(m => m.ListasPageModule)
+          },
+          {
+            path: 'criar',
+            loadChildren: () => import('../listas/criar/criar.module').then(m => m.CriarPageModule)
+          }
+        ]
+      },
+      {
+        path: 'home',
+        loadChildren: () => import('../home/home.module').then(m => m.HomePageModule)
+      },
+      {
+        path: 'search',
+        loadChildren: () => import('../search/search.module').then(m => m.SearchPageModule)
+      },
+      {
+        path: 'perfil',
+        loadChildren: () => import('../perfil/perfil.module').then(m => m.PerfilPageModule)
+      },
+      {
+        path: '',
+        redirectTo: '/tabs/listas',
+        pathMatch: 'full'
+      }
     ]
   }
 ];

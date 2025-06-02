@@ -1,0 +1,137 @@
+.movie-card {
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(var(--ion-color-dark-rgb, 0, 0, 0), 0.1);
+    overflow: hidden;
+    transition: transform 0.2s ease;
+  
+    img {
+      width: 100%;
+      height: auto;
+      object-fit: cover;
+    }
+  
+    ion-card-header {
+      padding-bottom: 0;
+    }
+  
+    ion-card-title {
+      font-size: 1.2rem;
+      font-weight: 600;
+      color: var(--ion-text-color, #fff);
+    }
+  
+    ion-card-subtitle {
+      color: var(--ion-color-medium, #999);
+    }
+  
+    &:hover {
+      transform: scale(1.02);
+    }
+  }
+  
+  ion-header,
+  ion-toolbar,
+  ion-content,
+  ion-card,
+  ion-list,
+  ion-card-header,
+  ion-card-content {
+    backdrop-filter: none !important;
+    background: var(--ion-background-color, #181818) !important;
+    --background: var(--ion-background-color, #181818) !important;
+    opacity: 1 !important;
+  }
+  
+  ion-list {
+    margin-top: 24px;
+    border-top: 1px solid var(--ion-color-step-150, #333);
+    background: var(--ion-background-color, #181818);
+  }
+  
+  ion-list-header {
+    background: var(--ion-color-step-50, #232323);
+    font-weight: bold;
+    padding-top: 8px;
+    color: var(--ion-text-color, #fff);
+  }
+  
+  ion-item img {
+    border-radius: 8px;
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+  }
+
+  .criar-btn {
+    margin-bottom: 24px;
+    font-size: 1.1rem;
+    --background: var(--ion-color-primary);
+    --color: var(--ion-color-primary-contrast);
+    --box-shadow: 0 4px 16px rgba(var(--ion-color-primary-rgb), 0.15);
+  }
+
+  .playlists-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .playlist-card {
+    background: var(--ion-color-step-100, #232323) !important;
+    border-radius: 18px;
+    padding-bottom: 0;
+  }
+
+  ion-card-header {
+    background: transparent !important;
+    padding-bottom: 0;
+  }
+
+  ion-card-title {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: var(--ion-text-color, #fff);
+  }
+
+  .delete-btn {
+    margin-left: 8px;
+    --color: var(--ion-color-danger);
+  }
+
+  ion-card-content {
+    padding-top: 0;
+    background: transparent !important;
+  }
+
+  ion-list {
+    background: transparent !important;
+    margin: 0;
+    padding: 0;
+  }
+
+  .film-item {
+    --background: transparent;
+    color: var(--ion-text-color, #fff);
+    border-radius: 8px;
+    margin-bottom: 2px;
+  }
+
+  .empty-list {
+    color: var(--ion-color-medium, #aaa);
+    font-style: italic;
+  }
+
+  ion-item {
+    --background: transparent !important;
+    background: transparent !important;
+  }
+
+  ion-header,
+  ion-toolbar,
+  ion-content {
+    background: var(--ion-background-color, #181818) !important;
+    --background: var(--ion-background-color, #181818) !important;
+  }

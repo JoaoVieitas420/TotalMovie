@@ -21,6 +21,10 @@
         <p><strong>Atores:</strong> {{ movie.Actors }}</p>
         <p><strong>Enredo:</strong> {{ movie.Plot }}</p>
         <p><strong>IMDb:</strong> {{ movie.imdbRating }}/10</p>
+        <ion-button expand="block" color="primary" (click)="abrirAdicionarLista()">
+          <ion-icon name="add-circle" slot="start"></ion-icon>
+          Adicionar à lista
+        </ion-button>
       </ion-card-content>
     </ion-card>
   </div>

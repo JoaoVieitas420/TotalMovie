@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-perfil',
@@ -8,9 +9,39 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PerfilPage implements OnInit {
 
-  constructor() { }
+  profilePhotoUrl: string = 'assets/img/default-profile.jpg';
 
-  ngOnInit() {
+  constructor(
+    private router: Router,
+  ) {}
+
+  ngOnInit() {}
+
+  selecionarFoto(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+
+    const fileInput = document.getElementById('fileInput') as HTMLInputElement;
+    fileInput?.click();
+  }
+
+  onFileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilePhotoUrl = reader.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  editarPerfil() {
+    // Exemplo: redireciona para uma rota ou mostra alerta
+    // this.router.navigate(['/editar-perfil']);
+    alert('Função de edição de perfil ainda não implementada.');
   }
 
 }
