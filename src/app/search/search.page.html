@@ -1,0 +1,21 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-title>TotalMovie</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <ion-searchbar [(ngModel)]="query" (ionInput)="procurar()" placeholder="Procurar por título"></ion-searchbar>
+
+  <ion-list *ngIf="resultados.length > 0">
+    <ion-item *ngFor="let filme of resultados" [routerLink]="['/movie', filme.imdbID]">
+      <ion-thumbnail slot="start">
+        <img [src]="filme.Poster !== 'N/A' ? filme.Poster : 'assets/img/default.jpg'" />
+      </ion-thumbnail>
+      <ion-label>
+        <h2>{{ filme.Title }}</h2>
+        <p>{{ filme.Year }}</p>
+      </ion-label>
+    </ion-item>
+  </ion-list>
+</ion-content>

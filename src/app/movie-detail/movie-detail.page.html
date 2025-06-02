@@ -1,0 +1,31 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/home"></ion-back-button>
+    </ion-buttons>
+    <ion-title>{{ movie?.Title || 'Detalhes' }}</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="!isLoading" class="ion-padding">
+  <div class="card-center-wrapper">
+    <ion-card>
+      <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/img/default.jpg'" />
+      <ion-card-header>
+        <ion-card-title>{{ movie.Title }}</ion-card-title>
+        <ion-card-subtitle>{{ movie.Year }} • {{ movie.Runtime }}</ion-card-subtitle>
+      </ion-card-header>
+      <ion-card-content>
+        <p><strong>Género:</strong> {{ movie.Genre }}</p>
+        <p><strong>Realizador:</strong> {{ movie.Director }}</p>
+        <p><strong>Atores:</strong> {{ movie.Actors }}</p>
+        <p><strong>Enredo:</strong> {{ movie.Plot }}</p>
+        <p><strong>IMDb:</strong> {{ movie.imdbRating }}/10</p>
+      </ion-card-content>
+    </ion-card>
+  </div>
+</ion-content>
+
+<ion-content *ngIf="isLoading">
+  <ion-spinner class="center-spinner"></ion-spinner>
+</ion-content>
