@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { StorageService } from '../services/storage.service';
 import { AlertController } from '@ionic/angular';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-listas',
@@ -13,7 +14,8 @@ export class ListasPage {
 
   constructor(
     private storageService: StorageService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private router: Router
   ) {}
 
   async ionViewWillEnter() {
@@ -81,5 +83,9 @@ export class ListasPage {
     this.playlists[playlistIndex].filmes.splice(movieIndex, 1);
     await this.storageService.updateListas(this.playlists);
     this.playlists = await this.storageService.getListas();
+  }
+
+  navegarParaPesquisa() {
+    this.router.navigate(['/tabs/search']);
   }
 }

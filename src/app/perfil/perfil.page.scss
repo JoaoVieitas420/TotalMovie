@@ -14,7 +14,6 @@
     overflow: hidden;
     margin-top: 24px;
     background: var(--ion-color-step-100, #222428);
-    box-shadow: 0 4px 12px rgba(var(--ion-color-dark-rgb, 0, 0, 0), 0.2);
     transition: transform 0.3s ease;
     cursor: pointer;
   }
@@ -38,7 +37,6 @@
     padding: 6px;
     border-radius: 50%;
     color: var(--ion-color-primary-contrast, #fff);
-    box-shadow: 0 2px 6px rgba(var(--ion-color-dark-rgb, 0, 0, 0), 0.3);
     z-index: 10;
   }
   
@@ -57,7 +55,6 @@
   
   ion-button {
     --border-radius: 12px;
-    --box-shadow: 0 4px 6px rgba(var(--ion-color-dark-rgb, 0, 0, 0), 0.15);
     font-weight: 600;
     margin-bottom: 12px;
   }

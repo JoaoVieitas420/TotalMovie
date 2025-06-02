@@ -29,27 +29,12 @@
     }
   }
   
-  ion-header,
-  ion-toolbar,
-  ion-content,
-  ion-card,
-  ion-list,
-  ion-card-header,
-  ion-card-content {
-    backdrop-filter: none !important;
-    background: var(--ion-background-color, #181818) !important;
-    --background: var(--ion-background-color, #181818) !important;
-    opacity: 1 !important;
-  }
   
   ion-list {
     margin-top: 24px;
-    border-top: 1px solid var(--ion-color-step-150, #333);
-    background: var(--ion-background-color, #181818);
   }
   
   ion-list-header {
-    background: var(--ion-color-step-50, #232323);
     font-weight: bold;
     padding-top: 8px;
     color: var(--ion-text-color, #fff);
@@ -129,8 +114,6 @@
     background: transparent !important;
   }
 
-  ion-header,
-  ion-toolbar,
   ion-content {
     background: var(--ion-background-color, #181818) !important;
     --background: var(--ion-background-color, #181818) !important;

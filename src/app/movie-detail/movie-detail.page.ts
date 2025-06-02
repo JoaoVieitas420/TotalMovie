@@ -36,7 +36,7 @@ export class MovieDetailPage implements OnInit {
 
   async abrirAdicionarLista() {
     this.listas = await this.storageService.getListas();
-    // Só listas onde o filme ainda não está
+    // Only lists where the movie is not already present
     const listasDisponiveis = this.listas.filter(
       lista => !lista.filmes?.some((f: any) => f.imdbID === this.movie.imdbID)
     );

@@ -11,7 +11,7 @@
 
 <ion-content class="ion-padding">
   <div *ngIf="!isLoading">
-    <h2>New Releases</h2>
+    <h2>Lançamentos</h2>
     <div class="horizontal-scroll">
       <div class="movie-card" *ngFor="let movie of destaques">
         <ion-card (click)="verDetalhes(movie.imdbID)" style="cursor:pointer;">

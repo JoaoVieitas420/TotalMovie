@@ -39,9 +39,14 @@ export class PerfilPage implements OnInit {
   }
 
   editarPerfil() {
-    // Exemplo: redireciona para uma rota ou mostra alerta
-    // this.router.navigate(['/editar-perfil']);
+    // Example: redirects to a route or shows an alert
+    // this.router.navigate(['/edit-profile']);
+
     alert('Função de edição de perfil ainda não implementada.');
+  }
+
+  navegarParaPesquisa() {
+    this.router.navigate(['/tabs/search']);
   }
 
 }
