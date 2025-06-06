@@ -1,16 +1,30 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
+import { AuthService } from 'src/app/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.page.html',
-  styleUrls: ['./login.page.scss'],
   standalone: false,
 })
-export class LoginPage implements OnInit {
+export class LoginPage {
+  email = '';
+  password = '';
 
-  constructor() { }
+  constructor(private auth: AuthService, private router: Router) {}
 
-  ngOnInit() {
+  async login() {
+    try {
+      await this.auth.login(this.email, this.password);
+      alert('Login com sucesso!');
+      
+      // ⚠️ Força a navegação no ciclo seguinte (resolve problemas de race condition)
+      setTimeout(() => {
+        this.router.navigate(['/tabs/home'], { replaceUrl: true });
+      }, 0);
+      
+    } catch (e: any) {
+      alert(e.message);
+    }
   }
-
 }
