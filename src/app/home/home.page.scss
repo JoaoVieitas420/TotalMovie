@@ -1,0 +1,94 @@
+#container {
+  text-align: center;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#container strong {
+  font-size: 20px;
+  line-height: 26px;
+}
+
+#container p {
+  font-size: 16px;
+  line-height: 22px;
+
+  color: #8c8c8c;
+
+  margin: 0;
+}
+
+#container a {
+  text-decoration: none;
+}
+
+.scroll-wrapper {
+  overflow-x: auto;
+  white-space: nowrap;
+}
+
+.scroll-row {
+  display: flex;
+  gap: 12px;
+}
+
+ion-card {
+  min-width: 200px;
+  max-width: 200px;
+  flex-shrink: 0;
+}
+
+.horizontal-scroll {
+  display: flex;
+  overflow-x: auto;
+  gap: 16px;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+}
+
+.movie-card {
+  flex: 0 0 auto;
+  width: 200px;
+  scroll-snap-align: start;
+}
+
+.movie-info span:first-child {
+  display: block;
+  font-weight: bold;
+  font-size: 16px;
+  white-space: normal;      // Allow wrapping
+  overflow: visible;
+  text-overflow: unset;
+  max-width: 150px;
+  margin: 0; // Remove auto margins
+  text-align: left; // Align text to the left
+}
+
+ion-card-title {
+  white-space: normal;      // Allow text to wrap
+  overflow: visible;        // Show all text
+  text-overflow: unset;     // No ellipsis
+  display: block;
+  max-width: 200px;
+  margin: 0; // Remove auto margins
+  text-align: left; // Align text to the left
+  font-size: 20px;
+  min-height: 40px;         // Ensures consistent height for titles
+}
+
+.imdb-rating {
+  font-size: 14px;
+  color: #ffd700; /* gold/yellow for IMDb */
+  margin-top: 4px;
+  margin-left: 12px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+
+
+

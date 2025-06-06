@@ -1,0 +1,26 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>TotalMovie</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="navegarParaPesquisa()">
+        <ion-icon name="search" slot="icon-only"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="profile-container">
+    <div class="profile-photo-wrapper" (click)="selecionarFoto()">
+      <img src="assets/icon/Pedro.avif" alt="Foto de Perfil" class="profile-photo" />
+      <ion-icon name="camera" class="camera-icon" (click)="selecionarFoto($event)"></ion-icon>
+    </div>
+
+    <input type="file" accept="image/*" #fileInput hidden (change)="onFileSelected($event)" />
+
+    <h2 class="profile-username">Pedro Silva</h2>
+    <p class="profile-email">pedross&#64;gmail.com</p>
+
+    <ion-button expand="block" class="edit-btn" (click)="editarPerfil()">Editar Perfil</ion-button>
+  </div>
+</ion-content>
