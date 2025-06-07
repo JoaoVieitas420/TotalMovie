@@ -38,3 +38,13 @@
 @import 'swiper/css';
 @import 'swiper/css/navigation';
 @import 'swiper/css/pagination';
+
+
+.imdb-rating {
+  font-size: 14px;
+  color: #ffd700; /* gold/yellow for IMDb */
+  margin-top: 4px;
+  margin-left: 12px;
+  margin-bottom: 8px;
+  font-weight: 500;
+}

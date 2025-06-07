@@ -68,8 +68,4 @@ export class PerfilPage implements OnInit {
   navegarParaPesquisa() {
     this.router.navigate(['/tabs/search']);
   }
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/DevJoaoAfonso
 }

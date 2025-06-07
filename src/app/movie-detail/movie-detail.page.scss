@@ -35,3 +35,32 @@ ion-card img {
   border-radius: 8px 8px 0 0;
   object-fit: cover;
 }
+
+.where-to-watch-section {
+  margin-top: 2rem;
+}
+.where-title {
+  margin-bottom: 0.5rem;
+}
+.provider-box {
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+}
+.provider-box img {
+  margin-right: 1rem;
+  border-radius: 6px;
+  background: #000;
+  width: 60px;
+  height: 60px;
+}
+.provider-info {
+  font-weight: bold;
+}
+.provider-type {
+  color: #555;
+}
+.no-streaming {
+  margin-top: 2rem;
+  color: #888;
+}

@@ -62,7 +62,6 @@
   }
 
   .playlist-card {
-    background: var(--ion-color-step-100, #232323) !important;
     border-radius: 18px;
     padding-bottom: 0;
   }
@@ -112,9 +111,4 @@
   ion-item {
     --background: transparent !important;
     background: transparent !important;
-  }
-
-  ion-content {
-    background: var(--ion-background-color, #181818) !important;
-    --background: var(--ion-background-color, #181818) !important;
   }
