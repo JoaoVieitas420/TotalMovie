@@ -46,4 +46,14 @@ export class MovieService {
   getWatchProviders(id: number): Observable<any> {
     return this.http.get(`${BASE_URL}/movie/${id}/watch/providers`, { headers: this.headers });
   }
+
+  // 🎥 Now playing movies
+  getNowPlaying(): Observable<any> {
+    return this.http.get(`${BASE_URL}/movie/now_playing?language=pt-PT`, { headers: this.headers });
+  }
+
+  // 🌟 Popular movies (Portuguese)
+  getPopular(): Observable<any> {
+    return this.http.get(`${BASE_URL}/movie/popular?language=pt-PT`, { headers: this.headers });
+  }
 }

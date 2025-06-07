@@ -15,7 +15,7 @@
     <div class="horizontal-scroll">
       <div class="movie-card" *ngFor="let movie of destaques">
         <ion-card (click)="verDetalhes(movie.imdbID)" style="cursor:pointer;">
-          <img [src]="movie.Poster !== 'N/A' ? movie.Poster : ''" />
+          <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/img/default.jpg'" />
           <ion-card-header>
             <ion-card-title>{{ movie.Title }}</ion-card-title>
             <ion-card-subtitle>{{ movie.Year }}</ion-card-subtitle>
@@ -31,13 +31,13 @@
     <div class="horizontal-scroll">
       <div class="movie-card" *ngFor="let movie of populares">
         <ion-card (click)="verDetalhes(movie.imdbID)" style="cursor:pointer;">
-          <img [src]="movie.Poster !== 'N/A' ? movie.Poster : ''" />
+          <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/img/default.jpg'" />
           <ion-card-header>
             <ion-card-title>{{ movie.Title }}</ion-card-title>
             <ion-card-subtitle>{{ movie.Year }}</ion-card-subtitle>
           </ion-card-header>
           <div class="imdb-rating">
-            IMDb: {{ movie.imdbRating }}
+            IMDb: {{ movie.imdbRating && movie.imdbRating !== 'N/A' ? movie.imdbRating : 'Sem avaliação' }}
           </div>
         </ion-card>
       </div>

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { MovieService } from '../services/movie.service';
 import { OmdbService } from '../services/omdb.service';
-import { firstValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -10,37 +10,56 @@ import { firstValueFrom } from 'rxjs';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  destaques: any[] = [
-    { titulo: 'Interstellar' },
-    { titulo: 'Oppenheimer' },
-    { titulo: 'Barbie' }
-  ];
-  populares: any[] = [
-    { titulo: 'Avengers: Endgame' },
-    { titulo: 'Joker' },
-    { titulo: 'Inception' }
-  ];
+  destaques: any[] = [];
+  populares: any[] = [];
   isLoading = true;
-  slideOpts = {
-    slidesPerView: 2.2,
-    spaceBetween: 10
-  };
 
-  constructor(public router: Router, private omdbService: OmdbService) {}
+  constructor(
+    public router: Router,
+    private movieService: MovieService,
+    private omdbService: OmdbService
+  ) {}
 
-  async ngOnInit() {
-    const destaquesResults = await Promise.all(
-      this.destaques.map(movie => firstValueFrom(this.omdbService.getMovieByTitle(movie.titulo)))
-    );
-    const popularesResults = await Promise.all(
-      this.populares.map(movie => firstValueFrom(this.omdbService.getMovieByTitle(movie.titulo)))
-    );
-    this.destaques = destaquesResults;
-    this.populares = popularesResults;
-    this.isLoading = false;
+  ngOnInit() {
+    // Lançamentos (now playing)
+    this.movieService.getNowPlaying().subscribe((res: any) => {
+      const tmdbMovies = res.results || [];
+      Promise.all(
+        tmdbMovies.map((movie: any) =>
+          movie.imdb_id
+            ? this.omdbService.getMovieById(movie.imdb_id).toPromise()
+            : this.movieService.getMovieDetails(movie.id).toPromise().then((details: any) =>
+                details.imdb_id
+                  ? this.omdbService.getMovieById(details.imdb_id).toPromise()
+                  : null
+              )
+        )
+      ).then((movies: any[]) => {
+        this.destaques = movies.filter(m => m && m.Response !== 'False');
+        this.isLoading = false;
+      });
+    });
+
+    // Populares
+    this.movieService.getPopular().subscribe((res: any) => {
+      const tmdbMovies = res.results || [];
+      Promise.all(
+        tmdbMovies.map((movie: any) =>
+          movie.imdb_id
+            ? this.omdbService.getMovieById(movie.imdb_id).toPromise()
+            : this.movieService.getMovieDetails(movie.id).toPromise().then((details: any) =>
+                details.imdb_id
+                  ? this.omdbService.getMovieById(details.imdb_id).toPromise()
+                  : null
+              )
+        )
+      ).then((movies: any[]) => {
+        this.populares = movies.filter(m => m && m.Response !== 'False');
+      });
+    });
   }
 
-  verDetalhes(id: string) {
-    this.router.navigate(['/movie', id]);
+  verDetalhes(imdbID: string) {
+    this.router.navigate(['/movie-detail', imdbID]);
   }
 }
