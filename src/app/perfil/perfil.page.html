@@ -1,6 +1,6 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
-    <ion-title>TotalMovie</ion-title>
+    <ion-title>Perfil</ion-title>
     <ion-buttons slot="end">
       <ion-button (click)="navegarParaPesquisa()">
         <ion-icon name="search" slot="icon-only"></ion-icon>
@@ -10,17 +10,49 @@
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <div class="profile-container">
-    <div class="profile-photo-wrapper" (click)="selecionarFoto()">
-      <img src="assets/icon/Pedro.avif" alt="Foto de Perfil" class="profile-photo" />
-      <ion-icon name="camera" class="camera-icon" (click)="selecionarFoto($event)"></ion-icon>
+
+  <!-- HEADER -->
+  <div class="profile-header">
+    <div class="profile-photo-wrapper">
+      <img [src]="profilePhotoUrl" alt="Foto de Perfil" class="profile-photo" />
     </div>
-
-    <input type="file" accept="image/*" #fileInput hidden (change)="onFileSelected($event)" />
-
-    <h2 class="profile-username">Pedro Silva</h2>
-    <p class="profile-email">pedross&#64;gmail.com</p>
-
-    <ion-button expand="block" class="edit-btn" (click)="editarPerfil()">Editar Perfil</ion-button>
+    <h2 class="profile-name">{{ nome }}</h2>
+    <p class="profile-email">{{ email }}</p>
   </div>
+
+  <!-- INFO -->
+  <div class="profile-info-card">
+    <ion-list lines="none">
+      <ion-item *ngIf="bio">
+        <ion-icon name="information-circle-outline" slot="start"></ion-icon>
+        <ion-label>
+          <strong>Bio:</strong><br />
+          {{ bio }}
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="localizacao">
+        <ion-icon name="location-outline" slot="start"></ion-icon>
+        <ion-label>
+          <strong>Localização:</strong><br />
+          {{ localizacao }}
+        </ion-label>
+      </ion-item>
+
+      <ion-item *ngIf="estiloPreferido">
+        <ion-icon name="film-outline" slot="start"></ion-icon>
+        <ion-label>
+          <strong>Estilo Favorito:</strong><br />
+          {{ estiloPreferido }}
+        </ion-label>
+      </ion-item>
+    </ion-list>
+  </div>
+
+  <!-- AÇÕES -->
+  <div class="profile-actions">
+    <ion-button expand="block" color="primary" (click)="editarPerfil()">Editar Perfil</ion-button>
+    <ion-button expand="block" color="danger" (click)="logout()">Terminar Sessão</ion-button>
+  </div>
+
 </ion-content>
