@@ -68,3 +68,5 @@ testem.log
 # System files
 .DS_Store
 Thumbs.db
+src/app/services/movie.service.ts
+src/app/services/omdb.service.ts
