@@ -6,7 +6,7 @@ const BASE_URL = 'https://api.themoviedb.org/3';
 const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
 
 // Substitui pelo teu token pessoal da conta TMDB (v4)
-const BEARER_TOKEN = 'Bearer API_KEY_HERE';
+const BEARER_TOKEN = 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJhNWQzZjE1NWY2M2M5Zjk1YTBmYzg0MmM3YzdlNzg4NiIsIm5iZiI6MTc0ODg3MDQ1OC40ODMsInN1YiI6IjY4M2RhNTNhZTliOGQyMWZjMjY4OWUyNiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.7o5vNgKB5oBq2653YhFIjMIV5GuogvN1h5KEC6iuUvQ';
 
 @Injectable({
   providedIn: 'root'

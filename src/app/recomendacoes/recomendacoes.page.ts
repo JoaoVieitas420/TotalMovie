@@ -21,6 +21,8 @@ export class RecomendacoesPage implements OnInit {
   certificacoes: any[] = [];
   providers: any[] = [];
   generosSelecionados: number[] = [];
+  certificacoesSelecionadas: string[] = [];
+  providersSelecionados: string[] = [];
   certificacaoSelecionada = '';
   providerSelecionado = '';
   sortSelecionado = 'popularity.desc';
@@ -67,40 +69,44 @@ export class RecomendacoesPage implements OnInit {
     if (this.generosSelecionados.length > 0) {
       params.with_genres = this.generosSelecionados.join(',');
     }
-    if (this.certificacaoSelecionada) {
-      params.certification = this.certificacaoSelecionada;
+    if (this.certificacoesSelecionadas.length > 0) {
+      params.certification = this.certificacoesSelecionadas.join('|');
       params.certification_country = 'PT';
     }
-    if (this.providerSelecionado) {
-      params.with_watch_providers = this.providerSelecionado;
+    if (this.providersSelecionados.length > 0) {
+      params.with_watch_providers = this.providersSelecionados.join('|');
     }
-    // Só filmes até à data atual se for "Mais recentes"
     if (this.sortSelecionado === 'release_date.desc') {
       params['release_date.lte'] = new Date().toISOString().slice(0, 10);
     }
 
     this.movieService.discoverMovies(params).subscribe((res: any) => {
       this.totalPaginas = res.total_pages;
-      const filmesRecebidos = reset ? res.results : this.filmes.concat(res.results);
+      const filmesRecebidos = res.results;
 
       // Buscar detalhes de cada filme para garantir imdb_id
       const detalhes$ = filmesRecebidos.map((movie: any) =>
         this.movieService.getMovieDetails(movie.id)
       );
       forkJoin<any[]>(detalhes$).subscribe((detalhes: any[]) => {
-        // Só filmes com imdb_id válido
         const filmesComImdb = detalhes.filter(f => !!f.imdb_id);
-        this.filmes = filmesComImdb;
-        this.atualizarFilmesVisiveis();
+
+        // Acrescenta os novos filmes à lista visível
+        if (reset) {
+          this.filmes = filmesComImdb;
+          this.filmesVisiveis = [...filmesComImdb];
+        } else {
+          this.filmes = this.filmes.concat(filmesComImdb);
+          this.filmesVisiveis = this.filmesVisiveis.concat(filmesComImdb);
+        }
+
         this.carregando = false;
         if (event) event.target.complete();
       });
     });
   }
 
-  atualizarFilmesVisiveis() {
-    this.filmesVisiveis = this.filmes;
-  }
+  atualizarFilmesVisiveis() {}
 
   carregarMaisFilmes(event: any) {
     if (this.paginaAtual < this.totalPaginas) {

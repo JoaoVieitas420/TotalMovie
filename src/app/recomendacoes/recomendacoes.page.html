@@ -15,13 +15,13 @@
   </ion-item>
   <ion-item>
     <ion-label>Certificação</ion-label>
-    <ion-select [(ngModel)]="certificacaoSelecionada" (ionChange)="onFiltroChange()">
+    <ion-select multiple="true" [(ngModel)]="certificacoesSelecionadas" (ionChange)="onFiltroChange()">
       <ion-select-option *ngFor="let cert of certificacoes" [value]="cert.certification">{{ cert.certification }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Streaming</ion-label>
-    <ion-select [(ngModel)]="providerSelecionado" (ionChange)="onFiltroChange()">
+    <ion-select multiple="true" [(ngModel)]="providersSelecionados" (ionChange)="onFiltroChange()">
       <ion-select-option *ngFor="let p of providers" [value]="p.provider_id">{{ p.provider_name }}</ion-select-option>
     </ion-select>
   </ion-item>
