@@ -10,21 +10,71 @@
 <ion-content *ngIf="!isLoading" class="ion-padding">
   <div class="card-center-wrapper">
     <ion-card>
-      <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/img/default.jpg'" />
+      <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/defaultmovie.jpg'" />
       <ion-card-header>
-        <ion-card-title>{{ movie.Title }}</ion-card-title>
-        <ion-card-subtitle>{{ movie.Year }} • {{ movie.Runtime }}</ion-card-subtitle>
+        <div style="display: flex; align-items: center; justify-content: space-between;">
+          <div>
+            <ion-card-title>{{ movie.Title }}</ion-card-title>
+            <ion-card-subtitle>{{ movie.Year }} • {{ movie.Runtime }}</ion-card-subtitle>
+          </div>
+          <ion-button fill="solid" color="primary" shape="round" size="medium" (click)="abrirAdicionarLista()">
+            <ion-icon name="add" slot="icon-only"></ion-icon>
+          </ion-button>
+        </div>
       </ion-card-header>
       <ion-card-content>
+        <p class="imdb-rating"><strong>IMDb:</strong> {{ movie.imdbRating }}/10</p>
         <p><strong>Género:</strong> {{ movie.Genre }}</p>
         <p><strong>Realizador:</strong> {{ movie.Director }}</p>
         <p><strong>Atores:</strong> {{ movie.Actors }}</p>
         <p><strong>Enredo:</strong> {{ movie.Plot }}</p>
-        <p><strong>IMDb:</strong> {{ movie.imdbRating }}/10</p>
-        <ion-button expand="block" color="primary" (click)="abrirAdicionarLista()">
-          <ion-icon name="add-circle" slot="start"></ion-icon>
-          Adicionar à lista
-        </ion-button>
+
+        <!-- Serviços de Streaming -->
+        <div *ngIf="streamingProviders.length > 0" class="where-to-watch-section">
+          <h3 class="where-title">Onde ver em streaming</h3>
+          <div *ngFor="let provider of streamingProviders" class="provider-box">
+            <a [href]="provider.link" target="_blank" rel="noopener" style="display: flex; align-items: flex-start; text-decoration: none; color: inherit;">
+              <img [src]="provider.logo" alt="{{provider.name}}" />
+              <div>
+                <div class="provider-info">{{ provider.name }}</div>
+                <div class="provider-type">{{ provider.type }}</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Serviços de Aluguer -->
+        <div *ngIf="rentProviders.length > 0" class="where-to-watch-section">
+          <h3 class="where-title">Onde alugar online</h3>
+          <div *ngFor="let provider of rentProviders" class="provider-box">
+            <a [href]="provider.link" target="_blank" rel="noopener" style="display: flex; align-items: flex-start; text-decoration: none; color: inherit;">
+              <img [src]="provider.logo" alt="{{provider.name}}" />
+              <div>
+                <div class="provider-info">{{ provider.name }}</div>
+                <div class="provider-type">{{ provider.type }}</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- Serviços de Compra -->
+        <div *ngIf="buyProviders.length > 0" class="where-to-watch-section">
+          <h3 class="where-title">Onde comprar online</h3>
+          <div *ngFor="let provider of buyProviders" class="provider-box">
+            <a [href]="provider.link" target="_blank" rel="noopener" style="display: flex; align-items: flex-start; text-decoration: none; color: inherit;">
+              <img [src]="provider.logo" alt="{{provider.name}}" />
+              <div>
+                <div class="provider-info">{{ provider.name }}</div>
+                <div class="provider-type">{{ provider.type }}</div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <div *ngIf="streamingProviders.length === 0 && rentProviders.length === 0 && buyProviders.length === 0" class="no-streaming">
+          <h3 class="where-title">Onde ver</h3>
+          <div>Não disponível em streaming, aluguer ou compra online em Portugal.</div>
+        </div>
       </ion-card-content>
     </ion-card>
   </div>

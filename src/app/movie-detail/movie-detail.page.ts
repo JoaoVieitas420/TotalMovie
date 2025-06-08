@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { OmdbService } from '../services/omdb.service';
 import { StorageService } from '../services/storage.service';
 import { ModalController, AlertController } from '@ionic/angular';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-movie-detail',
@@ -15,12 +16,16 @@ export class MovieDetailPage implements OnInit {
   movie: any = null;
   isLoading = true;
   listas: any[] = [];
+  streamingProviders: any[] = [];
+  rentProviders: any[] = [];
+  buyProviders: any[] = [];
 
   constructor(
     private route: ActivatedRoute,
     private omdbService: OmdbService,
     private storageService: StorageService,
-    private alertCtrl: AlertController
+    private alertCtrl: AlertController,
+    private movieService: MovieService
   ) {}
 
   async ngOnInit() {
@@ -29,9 +34,41 @@ export class MovieDetailPage implements OnInit {
       this.omdbService.getMovieById(imdbID).subscribe((res: any) => {
         this.movie = res;
         this.isLoading = false;
+        if (res?.Title) {
+          this.buscarProvedoresTMDB(res.Title);
+        }
       });
     }
     this.listas = await this.storageService.getListas();
+  }
+
+  buscarProvedoresTMDB(title: string) {
+    this.movieService.searchMovies(title).subscribe((res: any) => {
+      if (res && res.results && res.results.length > 0) {
+        const tmdbId = res.results[0].id;
+        this.movieService.getWatchProviders(tmdbId).subscribe((provRes: any) => {
+          const pt = provRes.results?.PT;
+          this.streamingProviders = pt?.flatrate?.map((prov: any) => ({
+            name: prov.provider_name,
+            logo: 'https://image.tmdb.org/t/p/w92' + prov.logo_path,
+            link: pt.link,
+            type: 'Streaming'
+          })) || [];
+          this.rentProviders = pt?.rent?.map((prov: any) => ({
+            name: prov.provider_name,
+            logo: 'https://image.tmdb.org/t/p/w92' + prov.logo_path,
+            link: pt.link,
+            type: 'Alugar'
+          })) || [];
+          this.buyProviders = pt?.buy?.map((prov: any) => ({
+            name: prov.provider_name,
+            logo: 'https://image.tmdb.org/t/p/w92' + prov.logo_path,
+            link: pt.link,
+            type: 'Comprar'
+          })) || [];
+        });
+      }
+    });
   }
 
   async abrirAdicionarLista() {
