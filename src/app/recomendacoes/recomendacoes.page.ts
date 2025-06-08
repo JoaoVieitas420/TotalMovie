@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
+import { Storage } from '@ionic/storage-angular'; // <-- Adiciona isto
 
 @Component({
   selector: 'app-recomendacoes',
@@ -31,24 +32,51 @@ export class RecomendacoesPage implements OnInit {
 
   constructor(
     private movieService: MovieService,
-    private router: Router
+    private router: Router,
+    private storage: Storage // <-- Adiciona isto
   ) {}
 
-  ngOnInit() {
-    this.carregarFiltros();
+  async ngOnInit() {
+    await this.storage.create();
+    await this.carregarFiltrosComPreferidos();
     this.descobrirFilmes(true);
   }
 
-  carregarFiltros() {
-    this.movieService.getGenres().subscribe((res: any) => {
-      this.generos = res.genres;
+  async carregarFiltrosComPreferidos() {
+    // Carrega géneros primeiro
+    await new Promise<void>((resolve) => {
+      this.movieService.getGenres().subscribe((res: any) => {
+        this.generos = res.genres;
+        resolve();
+      });
     });
+
+    // Carrega os outros filtros normalmente
     this.movieService.getCertifications().subscribe((res: any) => {
       this.certificacoes = res.certifications?.PT || [];
     });
     this.movieService.getStreamingProviders('PT').subscribe((res: any) => {
       this.providers = res.results || [];
     });
+
+    // Só depois de ter os géneros carregados, preenche os selecionados
+    await this.preencherGenerosPreferidos();
+  }
+
+  async preencherGenerosPreferidos() {
+    const sessionEmail = await this.storage.get('session');
+    if (!sessionEmail) return;
+    const perfil = await this.storage.get(`perfil-${sessionEmail}`);
+    if (perfil && perfil.estiloPreferido) {
+      // Se o utilizador pode escolher vários estilos, estiloPreferido deve ser um array de ids
+      // Se for só um, pode ser string ou id
+      // Aqui assumimos que é um array de ids (ajusta conforme o teu modelo)
+      if (Array.isArray(perfil.estiloPreferido)) {
+        this.generosSelecionados = perfil.estiloPreferido;
+      } else if (typeof perfil.estiloPreferido === 'number') {
+        this.generosSelecionados = [perfil.estiloPreferido];
+      }
+    }
   }
 
   descobrirFilmes(reset = false, event?: any) {

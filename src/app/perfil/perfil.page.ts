@@ -16,7 +16,6 @@ export class PerfilPage implements OnInit {
   localizacao: string = '';
   estiloPreferido: string = '';
 
-
   constructor(private router: Router, private storage: Storage) {}
 
   async ngOnInit() {
@@ -30,15 +29,13 @@ export class PerfilPage implements OnInit {
 
   async carregarPerfil() {
     const sessionEmail = await this.storage.get('session');
-    console.log('Email da sessão atual:', sessionEmail); // 👈 VERIFICA AQUI
     if (!sessionEmail) return;
-  
-    const perfil = await this.storage.get(`perfil-${sessionEmail}`);
-    console.log('Perfil carregado:', perfil); // 👈 VERIFICA AQUI
 
+    this.email = sessionEmail; // mostrar email mesmo que perfil esteja vazio
+
+    const perfil = await this.storage.get(`perfil-${sessionEmail}`);
     if (perfil) {
       this.nome = perfil.nome || '';
-      this.email = perfil.email || '';
       this.profilePhotoUrl = perfil.foto || 'assets/img/default-profile.jpg';
       this.bio = perfil.bio || '';
       this.localizacao = perfil.localizacao || '';
@@ -47,19 +44,15 @@ export class PerfilPage implements OnInit {
   }
 
   async logout() {
-  await this.storage.remove('session');
-
-  // Limpa os dados locais para não mostrar dados antigos
-  this.nome = '';
-  this.email = '';
-  this.bio = '';
-  this.localizacao = '';
-  this.estiloPreferido = '';
-  this.profilePhotoUrl = 'assets/img/default-profile.jpg';
-
-  // Navega para login com replace para evitar voltar atrás
-  this.router.navigateByUrl('/login', { replaceUrl: true });
-}
+    await this.storage.remove('session');
+    this.nome = '';
+    this.email = '';
+    this.bio = '';
+    this.localizacao = '';
+    this.estiloPreferido = '';
+    this.profilePhotoUrl = 'assets/img/default-profile.jpg';
+    this.router.navigateByUrl('/login', { replaceUrl: true });
+  }
 
   editarPerfil() {
     this.router.navigate(['/editar-perfil']);

@@ -35,28 +35,33 @@
     </ion-select>
   </ion-item>
 
-  <!-- Lista de Filmes -->
-  <ion-list>
-    <ion-item *ngFor="let movie of filmesVisiveis" (click)="verDetalhes(movie)">
-      <ion-thumbnail slot="start">
-        <img [src]="getPosterUrl(movie)" alt="Poster do filme" />
-      </ion-thumbnail>
-      <ion-label>
-        <h2>{{ movie.title }}</h2>
-        <p>
-          {{ movie.release_date ? (movie.release_date | slice:0:4) : '' }}
-          <span *ngIf="movie.genre_ids && generos.length">
-            • {{ getGenerosNomes(movie) }}
-          </span>
-        </p>
-        <p *ngIf="movie.watch_providers?.PT">
-          <span *ngFor="let p of movie.watch_providers.PT.flatrate">
-            {{ p.provider_name }}
-          </span>
-        </p>
-      </ion-label>
-    </ion-item>
-  </ion-list>
+  <!-- Lista de Filmes em cards -->
+  <ion-grid>
+    <ion-row>
+      <ion-col size="6" size-md="6" *ngFor="let movie of filmesVisiveis">
+        <ion-card (click)="verDetalhes(movie)" class="movie-card" style="cursor:pointer;">
+          <img [src]="getPosterUrl(movie)" alt="Poster do filme" />
+          <ion-card-header>
+            <ion-card-title>{{ movie.title }}</ion-card-title>
+            <ion-card-subtitle>
+              {{ movie.release_date ? (movie.release_date | slice:0:4) : '' }}
+              <span *ngIf="movie.genre_ids && generos.length">
+                • {{ getGenerosNomes(movie) }}
+              </span>
+            </ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content>
+            <div *ngIf="movie.watch_providers?.PT">
+              <strong>Onde ver:</strong>
+              <span *ngFor="let p of movie.watch_providers.PT.flatrate">
+                {{ p.provider_name }}
+              </span>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
 
   <ion-infinite-scroll threshold="100px" (ionInfinite)="carregarMaisFilmes($event)" *ngIf="paginaAtual < totalPaginas">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="A carregar mais filmes..."></ion-infinite-scroll-content>

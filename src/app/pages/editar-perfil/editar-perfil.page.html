@@ -6,43 +6,44 @@
       </ion-buttons>
     </ion-toolbar>
   </ion-header>
-  
+
   <ion-content [fullscreen]="true" class="ion-padding">
     <form (submit)="guardar()">
         <div class="edit-photo-wrapper">
             <img [src]="fotoPreview || 'assets/img/default-profile.jpg'" alt="Foto de Perfil" class="edit-profile-photo" />
             <ion-icon name="camera" class="edit-camera-icon" (click)="abrirSeletor()"></ion-icon>
           </div>
-          
+
           <input type="file" hidden #fileInput (change)="selecionarFoto($event)" accept="image/*" />
-          
-  
+
+
       <ion-item>
         <ion-label position="stacked">Nome</ion-label>
         <ion-input [(ngModel)]="nome" name="nome" required></ion-input>
       </ion-item>
-  
-      <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" name="email" required></ion-input>
-      </ion-item>
-  
+
       <ion-item>
         <ion-label position="stacked">Bio</ion-label>
         <ion-textarea [(ngModel)]="bio" name="bio"></ion-textarea>
       </ion-item>
-  
+
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="email" name="email" readonly></ion-input>
+      </ion-item>
+
       <ion-item>
         <ion-label position="stacked">Localização</ion-label>
         <ion-input [(ngModel)]="localizacao" name="localizacao"></ion-input>
       </ion-item>
-  
+
       <ion-item>
         <ion-label position="stacked">Estilo Preferido de Filmes</ion-label>
-        <ion-input [(ngModel)]="estiloPreferido" name="estiloPreferido"></ion-input>
+        <ion-select [(ngModel)]="estiloPreferido" name="estiloPreferido" interface="popover" multiple="true">
+          <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{ genero.name }}</ion-select-option>
+        </ion-select>
       </ion-item>
-  
+
       <ion-button expand="block" type="submit" class="ion-margin-top">Guardar</ion-button>
     </form>
   </ion-content>
-  
