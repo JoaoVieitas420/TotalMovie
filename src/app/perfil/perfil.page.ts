@@ -31,7 +31,7 @@ export class PerfilPage implements OnInit {
     const sessionEmail = await this.storage.get('session');
     if (!sessionEmail) return;
 
-    this.email = sessionEmail; // mostrar email mesmo que perfil esteja vazio
+    this.email = sessionEmail; // 👈 mostrar email mesmo que perfil esteja vazio
 
     const perfil = await this.storage.get(`perfil-${sessionEmail}`);
     if (perfil) {

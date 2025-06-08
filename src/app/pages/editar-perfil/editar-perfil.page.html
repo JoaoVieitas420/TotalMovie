@@ -21,7 +21,7 @@
         <ion-label position="stacked">Nome</ion-label>
         <ion-input [(ngModel)]="nome" name="nome" required></ion-input>
       </ion-item>
-
+  
       <ion-item>
         <ion-label position="stacked">Bio</ion-label>
         <ion-textarea [(ngModel)]="bio" name="bio"></ion-textarea>
@@ -32,6 +32,11 @@
         <ion-input [(ngModel)]="email" name="email" readonly></ion-input>
       </ion-item>
 
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="email" name="email" disabled></ion-input>
+      </ion-item>
+      
       <ion-item>
         <ion-label position="stacked">Localização</ion-label>
         <ion-input [(ngModel)]="localizacao" name="localizacao"></ion-input>
