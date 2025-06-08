@@ -23,15 +23,15 @@
       </ion-item>
   
       <ion-item>
-        <ion-label position="stacked">Email</ion-label>
-        <ion-input [(ngModel)]="email" name="email" required></ion-input>
-      </ion-item>
-  
-      <ion-item>
         <ion-label position="stacked">Bio</ion-label>
         <ion-textarea [(ngModel)]="bio" name="bio"></ion-textarea>
       </ion-item>
   
+      <ion-item>
+        <ion-label position="stacked">Email</ion-label>
+        <ion-input [(ngModel)]="email" name="email" disabled></ion-input>
+      </ion-item>
+      
       <ion-item>
         <ion-label position="stacked">Localização</ion-label>
         <ion-input [(ngModel)]="localizacao" name="localizacao"></ion-input>
