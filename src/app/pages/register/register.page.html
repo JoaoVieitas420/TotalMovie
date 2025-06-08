@@ -1,12 +1,40 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>Registar</ion-title>
-  </ion-toolbar>
-</ion-header>
+<ion-content class="ion-padding register-content">
+  <div class="auth-wrapper">
+    <div class="auth-card">
+      <h1>Cria uma conta</h1>
+      <p>Preenche os campos abaixo para te juntares a nós</p>
 
-<ion-content class="ion-padding">
-  <ion-input [(ngModel)]="email" placeholder="Email" type="email"></ion-input>
-  <ion-input [(ngModel)]="password" placeholder="Password" type="password"></ion-input>
-  <ion-button expand="block" (click)="register()">Registar</ion-button>
-  <ion-button expand="block" fill="clear" routerLink="/login">Já tens conta? Login</ion-button>
+      <ion-item lines="inset" class="auth-input" [class.invalid]="emailTouched && !isEmailValid(email)">
+        <ion-label position="floating">Email</ion-label>
+        <ion-input
+          [(ngModel)]="email"
+          type="email"
+          inputmode="email"
+          (ionBlur)="emailTouched = true">
+        </ion-input>
+      </ion-item>
+      <small *ngIf="emailTouched && !isEmailValid(email)" class="error-msg">Email inválido</small>
+
+      <ion-item lines="inset" class="auth-input" [class.invalid]="passwordTouched && !isPasswordValid(password)">
+        <ion-label position="floating">Palavra-passe</ion-label>
+        <ion-input
+          [(ngModel)]="password"
+          type="password"
+          (ionBlur)="passwordTouched = true">
+        </ion-input>
+      </ion-item>
+      <small *ngIf="passwordTouched && !isPasswordValid(password)" class="error-msg">
+        A palavra-passe deve ter pelo menos 6 caracteres
+      </small>
+
+      <ion-button shape="round" size="default" (click)="register()" class="auth-button" [disabled]="!isFormValid()">
+        <ion-icon slot="start" name="person-add-outline"></ion-icon>
+        Registar
+      </ion-button>
+
+      <div class="auth-footer">
+        <p>Já tens conta? <a routerLink="/login">Entra aqui</a></p>
+      </div>
+    </div>
+  </div>
 </ion-content>

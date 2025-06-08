@@ -1,5 +1,3 @@
-// src/app/services/movie.service.ts
-
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
@@ -56,4 +54,27 @@ export class MovieService {
   getPopular(): Observable<any> {
     return this.http.get(`${BASE_URL}/movie/popular?language=pt-PT`, { headers: this.headers });
   }
+
+ // 📂 Get movie genres
+ getGenres(): Observable<any> {
+  return this.http.get(`${BASE_URL}/genre/movie/list?language=pt-PT`, { headers: this.headers });
+}
+
+// 🏷️ Get certification ratings
+getCertifications(): Observable<any> {
+  return this.http.get(`${BASE_URL}/certification/movie/list`, { headers: this.headers });
+}
+
+// 📺 Get available streaming providers in a region
+getStreamingProviders(countryCode: string): Observable<any> {
+  return this.http.get(`${BASE_URL}/watch/providers/movie?watch_region=${countryCode}`, { headers: this.headers });
+}
+
+// 🎯 Discover movies based on filters
+discoverMovies(params: any): Observable<any> {
+  return this.http.get(`${BASE_URL}/discover/movie`, {
+    headers: this.headers,
+    params: params
+  });
+}
 }
