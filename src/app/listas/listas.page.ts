@@ -18,6 +18,10 @@ export class ListasPage {
     private router: Router
   ) {}
 
+  async ngOnInit() {
+    await this.storageService.ensureFavoritos();
+  }
+
   async ionViewWillEnter() {
     this.playlists = await this.storageService.getListas();
   }
@@ -71,18 +75,30 @@ export class ListasPage {
   }
 
   async removerPlaylist(index: number) {
-    const confirmacao = window.confirm(`Tem certeza que deseja apagar a playlist "${this.playlists[index].nome}"?`);
-    if (confirmacao) {
-      this.playlists.splice(index, 1);
-      await this.storageService.updateListas(this.playlists);
-      this.playlists = await this.storageService.getListas();
-    }
+    await this.storageService.removerPlaylist(index);
+    this.playlists = await this.storageService.getListas();
   }
 
   async removerFilmeDaPlaylist(playlistIndex: number, movieIndex: number) {
-    this.playlists[playlistIndex].filmes.splice(movieIndex, 1);
-    await this.storageService.updateListas(this.playlists);
-    this.playlists = await this.storageService.getListas();
+    const alert = await this.alertCtrl.create({
+      header: 'Remover Filme',
+      message: 'Tem a certeza que deseja remover este filme da playlist?',
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel'
+        },
+        {
+          text: 'Remover',
+          handler: async () => {
+            this.playlists[playlistIndex].filmes.splice(movieIndex, 1);
+            await this.storageService.updateListas(this.playlists);
+            this.playlists = await this.storageService.getListas();
+          }
+        }
+      ]
+    });
+    await alert.present();
   }
 
   navegarParaPesquisa() {

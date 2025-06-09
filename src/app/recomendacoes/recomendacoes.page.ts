@@ -176,4 +176,8 @@ export class RecomendacoesPage implements OnInit {
       .filter((name: string) => !!name)
       .join(', ');
   }
+
+  public navegarParaPesquisa() {
+    this.router.navigate(['/tabs/search']);
+  }
 }

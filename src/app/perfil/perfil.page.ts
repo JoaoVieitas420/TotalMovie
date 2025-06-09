@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { Storage } from '@ionic/storage-angular';
+import { MovieService } from '../services/movie.service';
 
 @Component({
   selector: 'app-perfil',
@@ -14,17 +15,32 @@ export class PerfilPage implements OnInit {
   profilePhotoUrl: string = 'assets/img/default-profile.jpg';
   bio: string = '';
   localizacao: string = '';
-  estiloPreferido: string = '';
+  estiloPreferido: number[] = [];
+  generos: any[] = [];
+  favoritos: any[] = [];
 
-  constructor(private router: Router, private storage: Storage) {}
+  constructor(
+    private router: Router,
+    private storage: Storage,
+    private movieService: MovieService
+  ) {}
 
   async ngOnInit() {
     await this.storage.create();
+    await this.carregarGeneros();
     await this.carregarPerfil();
+    await this.carregarFavoritos();
   }
 
   async ionViewWillEnter() {
     await this.carregarPerfil();
+    await this.carregarFavoritos();
+  }
+
+  async carregarGeneros() {
+    this.movieService.getGenres().subscribe((res: any) => {
+      this.generos = res.genres || [];
+    });
   }
 
   async carregarPerfil() {
@@ -39,8 +55,23 @@ export class PerfilPage implements OnInit {
       this.profilePhotoUrl = perfil.foto || 'assets/img/default-profile.jpg';
       this.bio = perfil.bio || '';
       this.localizacao = perfil.localizacao || '';
-      this.estiloPreferido = perfil.estiloPreferido || '';
+      this.estiloPreferido = Array.isArray(perfil.estiloPreferido)
+        ? perfil.estiloPreferido
+        : perfil.estiloPreferido
+        ? [perfil.estiloPreferido]
+        : [];
     }
+  }
+
+  async carregarFavoritos() {
+    const listas = await this.storage.get('listas');
+    const favoritos = listas?.find((l: any) => l.nome === 'Favoritos');
+    this.favoritos = favoritos?.filmes || [];
+  }
+
+  getGeneroNome(id: number): string {
+    const genero = this.generos.find(g => g.id === id);
+    return genero ? genero.name : id.toString();
   }
 
   async logout() {
@@ -49,7 +80,7 @@ export class PerfilPage implements OnInit {
     this.email = '';
     this.bio = '';
     this.localizacao = '';
-    this.estiloPreferido = '';
+    this.estiloPreferido = [];
     this.profilePhotoUrl = 'assets/img/default-profile.jpg';
     this.router.navigateByUrl('/login', { replaceUrl: true });
   }

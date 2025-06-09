@@ -2,57 +2,62 @@
   <ion-toolbar>
     <ion-title>Perfil</ion-title>
     <ion-buttons slot="end">
-      <ion-button (click)="navegarParaPesquisa()">
-        <ion-icon name="search" slot="icon-only"></ion-icon>
+      <ion-button fill="clear" (click)="editarPerfil()">
+        <ion-icon name="create-outline" slot="icon-only" color="totalmovie"></ion-icon>
+      </ion-button>
+      <ion-button fill="clear" color="danger" (click)="logout()">
+        <ion-icon name="log-out-outline" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
     </ion-buttons>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<ion-content [fullscreen]="true" class="profile-content">
 
-  <!-- HEADER -->
-  <div class="profile-header">
-    <div class="profile-photo-wrapper">
-      <img [src]="profilePhotoUrl" alt="Foto de Perfil" class="profile-photo" />
+  <div class="profile-card">
+    <div class="profile-avatar">
+      <img [src]="profilePhotoUrl" alt="Foto de Perfil" *ngIf="profilePhotoUrl && profilePhotoUrl !== 'assets/img/default-profile.jpg'; else defaultIcon" />
+      <ng-template #defaultIcon>
+        <ion-icon name="person-circle" class="profile-avatar-icon"></ion-icon>
+      </ng-template>
     </div>
-    <h2 class="profile-name">{{ nome }}</h2>
-    <p class="profile-email">{{ email }}</p>
-  </div>
-
-  <!-- INFO -->
-  <div class="profile-info-card">
-    <ion-list lines="none">
+    <div class="profile-main-info">
+      <h2>{{ nome || 'Utilizador' }}</h2>
+      <p class="profile-email">{{ email }}</p>
+    </div>
+    <ion-list lines="none" class="profile-info-list">
       <ion-item *ngIf="bio">
         <ion-icon name="information-circle-outline" slot="start"></ion-icon>
-        <ion-label>
-          <strong>Bio:</strong><br />
-          {{ bio }}
-        </ion-label>
+        <ion-label>{{ bio }}</ion-label>
       </ion-item>
-
       <ion-item *ngIf="localizacao">
         <ion-icon name="location-outline" slot="start"></ion-icon>
-        <ion-label>
-          <strong>Localização:</strong><br />
-          {{ localizacao }}
-        </ion-label>
+        <ion-label>{{ localizacao }}</ion-label>
       </ion-item>
-
-      <ion-item *ngIf="estiloPreferido">
-        <ion-icon name="film-outline" slot="start"></ion-icon>
+      <ion-item *ngIf="estiloPreferido && estiloPreferido.length">
+        <ion-icon name="film-outline" slot="start" color="totalmovie"></ion-icon>
         <ion-label>
-          <strong>Estilo Favorito:</strong><br />
-          {{ estiloPreferido }}
+          <span *ngIf="estiloPreferido instanceof Array; else unico">
+            <ion-chip *ngFor="let genero of estiloPreferido" color="totalmovie" outline>
+              {{ getGeneroNome(genero) }}
+            </ion-chip>
+          </span>
+          <ng-template #unico>
+            <ion-chip color="primary" outline>{{ getGeneroNome(estiloPreferido[0]) }}</ion-chip>
+          </ng-template>
         </ion-label>
       </ion-item>
     </ion-list>
   </div>
 
-  <!-- AÇÕES -->
-  <div class="profile-actions">
-    <ion-button expand="block" color="primary" (click)="editarPerfil()">Editar Perfil</ion-button>
-    <ion-button expand="block" color="danger" (click)="logout()">Terminar Sessão</ion-button>
+  <div class="favoritos-section" *ngIf="favoritos && favoritos.length">
+    <h3>Filmes Favoritos</h3>
+    <div class="favoritos-scroll">
+      <div class="favorito-card" *ngFor="let filme of favoritos">
+        <img [src]="filme.Poster || 'assets/img/default-movie.jpg'" [alt]="filme.Title" />
+        <div class="favorito-title">{{ filme.Title }}</div>
+      </div>
+    </div>
   </div>
 
 </ion-content>

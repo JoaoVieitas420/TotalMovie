@@ -1,63 +1,130 @@
-ion-content {
-  --background: var(--ion-color-light);
+.profile-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 32px;
 }
 
-.profile-header {
-  background: #1e1e1e;
-  color: white;
-  padding: 24px 16px;
-  text-align: center;
-  border-bottom-left-radius: 24px;
-  border-bottom-right-radius: 24px;
+.profile-card {
+  width: 100%;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 24px 16px 16px 16px;
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
+  margin-top: 32px;
 }
 
-.profile-photo-wrapper {
-  width: 120px;
-  height: 120px;
-  margin: 0 auto 12px;
+.profile-avatar {
+  width: 110px;
+  height: 110px;
   border-radius: 50%;
   overflow: hidden;
-  background: #333;
-  border: 4px solid white;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.profile-photo {
+.profile-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  display: block;
 }
 
-.profile-name {
-  margin: 0;
+.profile-avatar-icon {
+  font-size: 110px;
+  color: #bdbdbd;
+}
+
+.profile-main-info {
+  text-align: center;
+  margin-bottom: 18px;
+}
+
+.profile-main-info h2 {
+  margin: 0 0 4px 0;
   font-size: 1.5rem;
-  font-weight: bold;
+  font-weight: 600;
 }
 
 .profile-email {
-  margin: 4px 0 0;
-  font-size: 0.9rem;
-  color: #ccc;
+  color: #757575;
+  font-size: 1rem;
+  margin: 0;
+  word-break: break-all;
 }
 
-.profile-info-card {
-  background: white;
-  margin: 24px 16px;
-  padding: 16px;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+.profile-info-list {
+  width: 100%;
+  margin-top: 10px;
 }
 
-.profile-info-card ion-label {
-  color: #333;
+ion-item {
+  --min-height: 36px;
+  margin-bottom: 6px;
+  border-radius: 10px;
 }
 
-.profile-info-card ion-icon {
-  color: #666;
+ion-icon {
+  color: var(--ion-color-primary);
+  font-size: 1.2em;
 }
 
-.profile-actions {
-  padding: 0 16px 32px;
+ion-chip {
+  margin: 2px 4px 2px 0;
+  font-size: 0.95em;
+  --color: var(--ion-color-primary);
+  font-weight: 500;
+}
+
+.favoritos-section {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto 24px auto;
+  padding: 0 8px;
+}
+
+.favoritos-section h3 {
+  margin: 0 0 10px 8px;
+  font-size: 1.15rem;
+  font-weight: 600;
+}
+
+.favoritos-scroll {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  gap: 12px;
+  padding-bottom: 8px;
+  scrollbar-width: thin;
+}
+
+.favorito-card {
+  min-width: 100px;
+  max-width: 110px;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  align-items: center;
+  padding: 6px 6px 10px 6px;
+}
+
+.favorito-card img {
+  width: 90px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 6px;
+}
+
+.favorito-title {
+  font-size: 0.95em;
+  text-align: center;
+  font-weight: 500;
+  word-break: break-word;
 }

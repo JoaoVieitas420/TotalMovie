@@ -25,7 +25,7 @@
       </ion-item>
       <small *ngIf="passwordTouched && !isPasswordValid(password)" class="error-msg">A palavra-passe deve ter pelo menos 6 caracteres</small>
 
-      <ion-button shape="round" size="default" (click)="login()" class="auth-button" [disabled]="!isFormValid()">
+      <ion-button shape="round" size="default" (click)="login()" class="auth-button" [disabled]="!isFormValid()" color="totalmovie">
         <ion-icon slot="start" name="log-in-outline"></ion-icon>
         Entrar
       </ion-button>

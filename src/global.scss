@@ -48,3 +48,22 @@
   margin-bottom: 8px;
   font-weight: 500;
 }
+
+:root {
+  --ion-color-totalmovie: #d7263d;
+  --ion-color-totalmovie-rgb: 215,38,61;
+  --ion-color-totalmovie-contrast: #fff;
+  --ion-color-totalmovie-contrast-rgb: 255,255,255;
+  --ion-color-totalmovie-shade: #bc2235;
+  --ion-color-totalmovie-tint: #df4660;
+}
+
+/* Ionic color class for usage in components */
+.ion-color-totalmovie {
+  --ion-color-base: var(--ion-color-totalmovie);
+  --ion-color-base-rgb: var(--ion-color-totalmovie-rgb);
+  --ion-color-contrast: var(--ion-color-totalmovie-contrast);
+  --ion-color-contrast-rgb: var(--ion-color-totalmovie-contrast-rgb);
+  --ion-color-shade: var(--ion-color-totalmovie-shade);
+  --ion-color-tint: var(--ion-color-totalmovie-tint);
+}
