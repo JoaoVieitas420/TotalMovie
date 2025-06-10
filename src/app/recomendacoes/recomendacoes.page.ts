@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { MovieService } from '../services/movie.service';
 import { Router } from '@angular/router';
 import { forkJoin } from 'rxjs';
-import { Storage } from '@ionic/storage-angular'; // <-- Adiciona isto
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-recomendacoes',
@@ -11,39 +11,42 @@ import { Storage } from '@ionic/storage-angular'; // <-- Adiciona isto
   standalone: false
 })
 export class RecomendacoesPage implements OnInit {
-  filmes: any[] = [];
-  filmesVisiveis: any[] = [];
-  paginaAtual = 1;
-  totalPaginas = 1;
-  filmesPorPagina = 20;
+  // Listas de filmes e filtros
+  filmes: any[] = [];                // Todos os filmes carregados
+  filmesVisiveis: any[] = [];        // Filmes atualmente visíveis na página
+  paginaAtual = 1;                   // Página atual para paginação
+  totalPaginas = 1;                  // Total de páginas disponíveis
+  filmesPorPagina = 20;              // Quantos filmes mostrar por página
 
-  // Filtros
-  generos: any[] = [];
-  certificacoes: any[] = [];
-  providers: any[] = [];
-  generosSelecionados: number[] = [];
-  certificacoesSelecionadas: string[] = [];
-  providersSelecionados: string[] = [];
+  // Filtros de pesquisa
+  generos: any[] = [];               // Lista de géneros disponíveis
+  certificacoes: any[] = [];         // Lista de certificações disponíveis
+  providers: any[] = [];             // Lista de providers de streaming disponíveis
+  generosSelecionados: number[] = [];        // Géneros selecionados pelo utilizador
+  certificacoesSelecionadas: string[] = [];  // Certificações selecionadas
+  providersSelecionados: string[] = [];      // Providers selecionados
   certificacaoSelecionada = '';
   providerSelecionado = '';
-  sortSelecionado = 'popularity.desc';
+  sortSelecionado = 'popularity.desc';       // Critério de ordenação
 
-  carregando = false;
+  carregando = false;                // Estado de carregamento
 
   constructor(
     private movieService: MovieService,
     private router: Router,
-    private storage: Storage // <-- Adiciona isto
+    private storage: Storage
   ) {}
 
+  // Ao iniciar, carrega filtros e preenche géneros preferidos do perfil
   async ngOnInit() {
     await this.storage.create();
     await this.carregarFiltrosComPreferidos();
     this.descobrirFilmes(true);
   }
 
+  // Carrega géneros, certificações e providers, e preenche géneros preferidos do perfil
   async carregarFiltrosComPreferidos() {
-    // Carrega géneros primeiro
+    // Carrega géneros primeiro (necessário para preencher preferidos)
     await new Promise<void>((resolve) => {
       this.movieService.getGenres().subscribe((res: any) => {
         this.generos = res.genres;
@@ -51,7 +54,7 @@ export class RecomendacoesPage implements OnInit {
       });
     });
 
-    // Carrega os outros filtros normalmente
+    // Carrega certificações e providers
     this.movieService.getCertifications().subscribe((res: any) => {
       this.certificacoes = res.certifications?.PT || [];
     });
@@ -59,18 +62,16 @@ export class RecomendacoesPage implements OnInit {
       this.providers = res.results || [];
     });
 
-    // Só depois de ter os géneros carregados, preenche os selecionados
+    // Preenche géneros preferidos do utilizador autenticado
     await this.preencherGenerosPreferidos();
   }
 
+  // Lê os géneros preferidos do perfil do utilizador autenticado
   async preencherGenerosPreferidos() {
     const sessionEmail = await this.storage.get('session');
     if (!sessionEmail) return;
     const perfil = await this.storage.get(`perfil-${sessionEmail}`);
     if (perfil && perfil.estiloPreferido) {
-      // Se o utilizador pode escolher vários estilos, estiloPreferido deve ser um array de ids
-      // Se for só um, pode ser string ou id
-      // Aqui assumimos que é um array de ids (ajusta conforme o teu modelo)
       if (Array.isArray(perfil.estiloPreferido)) {
         this.generosSelecionados = perfil.estiloPreferido;
       } else if (typeof perfil.estiloPreferido === 'number') {
@@ -79,6 +80,7 @@ export class RecomendacoesPage implements OnInit {
     }
   }
 
+  // Descobre filmes com base nos filtros selecionados
   descobrirFilmes(reset = false, event?: any) {
     if (reset) {
       this.paginaAtual = 1;
@@ -87,6 +89,7 @@ export class RecomendacoesPage implements OnInit {
     }
     this.carregando = true;
 
+    // Monta os parâmetros de pesquisa para a API
     const params: any = {
       page: this.paginaAtual,
       sort_by: this.sortSelecionado,
@@ -108,11 +111,12 @@ export class RecomendacoesPage implements OnInit {
       params['release_date.lte'] = new Date().toISOString().slice(0, 10);
     }
 
+    // Faz o pedido à API e processa os resultados
     this.movieService.discoverMovies(params).subscribe((res: any) => {
       this.totalPaginas = res.total_pages;
       const filmesRecebidos = res.results;
 
-      // Buscar detalhes de cada filme para garantir imdb_id
+      // Busca detalhes de cada filme para garantir imdb_id
       const detalhes$ = filmesRecebidos.map((movie: any) =>
         this.movieService.getMovieDetails(movie.id)
       );
@@ -134,8 +138,10 @@ export class RecomendacoesPage implements OnInit {
     });
   }
 
+  // Atualiza os filmes visíveis (pode ser usado para filtros locais)
   atualizarFilmesVisiveis() {}
 
+  // Carrega mais filmes ao fazer scroll (infinite scroll)
   carregarMaisFilmes(event: any) {
     if (this.paginaAtual < this.totalPaginas) {
       this.paginaAtual++;
@@ -145,10 +151,12 @@ export class RecomendacoesPage implements OnInit {
     }
   }
 
+  // Sempre que um filtro muda, reinicia a pesquisa
   onFiltroChange() {
     this.descobrirFilmes(true);
   }
 
+  // Ao clicar num filme, navega para a página de detalhes (usando imdb_id)
   verDetalhes(movie: any) {
     this.movieService.getMovieDetails(movie.id).subscribe((details: any) => {
       if (details.imdb_id) {
@@ -159,6 +167,7 @@ export class RecomendacoesPage implements OnInit {
     });
   }
 
+  // Devolve o URL do poster do filme ou imagem de fallback
   getPosterUrl(movie: any): string {
     if (movie.poster_path) {
       return 'https://image.tmdb.org/t/p/w500' + movie.poster_path;
@@ -166,6 +175,7 @@ export class RecomendacoesPage implements OnInit {
     return 'assets/defaultmovie.jpg';
   }
 
+  // Devolve os nomes dos géneros do filme (ex: "Ação, Comédia")
   getGenerosNomes(movie: any): string {
     if (!movie.genre_ids || !this.generos.length) return '';
     return movie.genre_ids
@@ -177,6 +187,7 @@ export class RecomendacoesPage implements OnInit {
       .join(', ');
   }
 
+  // Navega para a página de pesquisa
   public navegarParaPesquisa() {
     this.router.navigate(['/tabs/search']);
   }

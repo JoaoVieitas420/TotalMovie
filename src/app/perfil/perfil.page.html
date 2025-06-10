@@ -2,9 +2,11 @@
   <ion-toolbar>
     <ion-title>Perfil</ion-title>
     <ion-buttons slot="end">
+      <!-- Botão para editar perfil -->
       <ion-button fill="clear" (click)="editarPerfil()">
         <ion-icon name="create-outline" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
+      <!-- Botão para logout -->
       <ion-button fill="clear" color="danger" (click)="logout()">
         <ion-icon name="log-out-outline" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
@@ -16,24 +18,29 @@
 
   <div class="profile-card">
     <div class="profile-avatar">
+      <!-- Mostra a foto de perfil ou ícone padrão -->
       <img [src]="profilePhotoUrl" alt="Foto de Perfil" *ngIf="profilePhotoUrl && profilePhotoUrl !== 'assets/img/default-profile.jpg'; else defaultIcon" />
       <ng-template #defaultIcon>
         <ion-icon name="person-circle" class="profile-avatar-icon"></ion-icon>
       </ng-template>
     </div>
     <div class="profile-main-info">
+      <!-- Nome do utilizador e email -->
       <h2>{{ nome || 'Utilizador' }}</h2>
       <p class="profile-email">{{ email }}</p>
     </div>
     <ion-list lines="none" class="profile-info-list">
+      <!-- Mostra a bio se existir -->
       <ion-item *ngIf="bio">
         <ion-icon name="information-circle-outline" slot="start"></ion-icon>
         <ion-label>{{ bio }}</ion-label>
       </ion-item>
+      <!-- Mostra a localização se existir -->
       <ion-item *ngIf="localizacao">
         <ion-icon name="location-outline" slot="start"></ion-icon>
         <ion-label>{{ localizacao }}</ion-label>
       </ion-item>
+      <!-- Mostra os géneros preferidos como chips -->
       <ion-item *ngIf="estiloPreferido && estiloPreferido.length">
         <ion-icon name="film-outline" slot="start" color="totalmovie"></ion-icon>
         <ion-label>
@@ -50,6 +57,7 @@
     </ion-list>
   </div>
 
+  <!-- Secção de filmes favoritos com scroll horizontal -->
   <div class="favoritos-section" *ngIf="favoritos && favoritos.length">
     <h3>Filmes Favoritos</h3>
     <div class="favoritos-scroll">

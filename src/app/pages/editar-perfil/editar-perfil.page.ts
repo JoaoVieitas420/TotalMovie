@@ -16,27 +16,30 @@ export class EditarPerfilPage {
   fotoPreview: string | ArrayBuffer | null = null;
   bio: string = '';
   localizacao: string = '';
-  estiloPreferido: string[] = []; // Agora é array
-  generos: any[] = [];
+  estiloPreferido: string[] = []; // Guarda os géneros preferidos como array
+  generos: any[] = [];            // Lista de géneros disponíveis
 
   constructor(
     private router: Router,
     private storage: Storage,
     private movieService: MovieService
   ) {
-    this.initStorage();
-    this.carregarGeneros();
+    this.initStorage();      // Inicializa o storage e carrega perfil ao criar componente
+    this.carregarGeneros();  // Carrega géneros de filmes disponíveis
   }
 
+  // Inicializa o storage e carrega o perfil do utilizador
   async initStorage() {
     await this.storage.create();
     await this.carregarPerfil();
   }
 
+  // Sempre que entra na página, carrega o perfil atualizado
   async ionViewWillEnter() {
     await this.carregarPerfil();
   }
 
+  // Carrega os dados do perfil do utilizador autenticado
   async carregarPerfil() {
     const sessionEmail = await this.storage.get('session');
     if (sessionEmail) {
@@ -47,6 +50,7 @@ export class EditarPerfilPage {
         this.fotoPreview = perfil.foto || null;
         this.bio = perfil.bio || '';
         this.localizacao = perfil.localizacao || '';
+        // Garante que estiloPreferido é sempre um array
         this.estiloPreferido = Array.isArray(perfil.estiloPreferido)
           ? perfil.estiloPreferido
           : perfil.estiloPreferido
@@ -56,10 +60,12 @@ export class EditarPerfilPage {
     }
   }
 
+  // Abre o seletor de ficheiros para escolher nova foto de perfil
   abrirSeletor() {
     this.fileInput.nativeElement.click();
   }
 
+  // Lê e mostra a foto selecionada pelo utilizador
   selecionarFoto(event: Event) {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files[0]) {
@@ -71,10 +77,12 @@ export class EditarPerfilPage {
     }
   }
 
+  // Também inicializa o storage ao entrar na página (caso necessário)
   async ionViewDidEnter() {
     await this.initStorage();
   }
 
+  // Guarda as alterações feitas no perfil do utilizador
   async guardar() {
     const sessionEmail = await this.storage.get('session');
     if (!sessionEmail) return;
@@ -89,11 +97,13 @@ export class EditarPerfilPage {
     });
 
     alert('Perfil atualizado com sucesso!');
+    // Redireciona para o perfil após guardar
     this.router.navigateByUrl('/tabs/home').then(() => {
       this.router.navigateByUrl('/tabs/perfil', { replaceUrl: true });
     });
   }
 
+  // Carrega a lista de géneros de filmes disponíveis (para o select)
   async carregarGeneros() {
     this.movieService.getGenres().subscribe((res: any) => {
       this.generos = res.genres || [];

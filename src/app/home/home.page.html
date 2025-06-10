@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>TotalMovie</ion-title>
     <ion-buttons slot="end">
+      <!-- Botão de pesquisa que navega para a página de pesquisa -->
       <ion-button (click)="router.navigate(['/tabs/search'])">
         <ion-icon name="search" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
@@ -10,16 +11,21 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Só mostra o conteúdo quando o carregamento termina -->
   <div *ngIf="!isLoading">
+    <!-- Secção de lançamentos -->
     <h2>Lançamentos</h2>
     <div class="horizontal-scroll">
+      <!-- Lista horizontal dos filmes em destaque -->
       <div class="movie-card" *ngFor="let movie of destaques">
         <ion-card (click)="verDetalhes(movie.imdbID)" style="cursor:pointer;">
+          <!-- Poster do filme (imagem de fallback se não existir) -->
           <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/defaultmovie.jpg'" />
           <ion-card-header>
             <ion-card-title>{{ movie.Title }}</ion-card-title>
             <ion-card-subtitle>{{ movie.Year }}</ion-card-subtitle>
           </ion-card-header>
+          <!-- Avaliação IMDb -->
           <div class="imdb-rating">
             IMDb: {{ movie.imdbRating }}
           </div>
@@ -27,8 +33,10 @@
       </div>
     </div>
 
+    <!-- Secção de filmes populares -->
     <h2 style="margin-top: 2rem;">Popular</h2>
     <div class="horizontal-scroll">
+      <!-- Lista horizontal dos filmes populares -->
       <div class="movie-card" *ngFor="let movie of populares">
         <ion-card (click)="verDetalhes(movie.imdbID)" style="cursor:pointer;">
           <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/defaultmovie.jpg'" />

@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>TotalMovie</ion-title>
     <ion-buttons slot="end">
+      <!-- Botão para navegar para a pesquisa -->
       <ion-button (click)="navegarParaPesquisa()">
         <ion-icon name="search" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
@@ -11,27 +12,31 @@
 
 <ion-content [fullscreen]="true" class="ion-padding">
 
-  <!-- Filtros -->
+  <!-- Filtros de pesquisa -->
   <ion-item>
     <ion-label>Género</ion-label>
+    <!-- Seleção múltipla de géneros -->
     <ion-select multiple="true" [(ngModel)]="generosSelecionados" (ionChange)="onFiltroChange()">
       <ion-select-option *ngFor="let genero of generos" [value]="genero.id">{{ genero.name }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Certificação</ion-label>
+    <!-- Seleção múltipla de certificações -->
     <ion-select multiple="true" [(ngModel)]="certificacoesSelecionadas" (ionChange)="onFiltroChange()">
       <ion-select-option *ngFor="let cert of certificacoes" [value]="cert.certification">{{ cert.certification }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Streaming</ion-label>
+    <!-- Seleção múltipla de providers de streaming -->
     <ion-select multiple="true" [(ngModel)]="providersSelecionados" (ionChange)="onFiltroChange()">
       <ion-select-option *ngFor="let p of providers" [value]="p.provider_id">{{ p.provider_name }}</ion-select-option>
     </ion-select>
   </ion-item>
   <ion-item>
     <ion-label>Ordenar por</ion-label>
+    <!-- Ordenação dos resultados -->
     <ion-select [(ngModel)]="sortSelecionado" (ionChange)="onFiltroChange()">
       <ion-select-option value="popularity.desc">Popularidade</ion-select-option>
       <ion-select-option value="release_date.desc">Mais recentes</ion-select-option>
@@ -40,15 +45,17 @@
     </ion-select>
   </ion-item>
 
-  <!-- Lista de Filmes em cards -->
+  <!-- Lista de filmes recomendados em cards -->
   <ion-grid>
     <ion-row>
       <ion-col size="6" size-md="6" *ngFor="let movie of filmesVisiveis">
         <ion-card (click)="verDetalhes(movie)" class="movie-card" style="cursor:pointer;">
+          <!-- Poster do filme -->
           <img [src]="getPosterUrl(movie)" alt="Poster do filme" />
           <ion-card-header>
             <ion-card-title>{{ movie.title }}</ion-card-title>
             <ion-card-subtitle>
+              <!-- Ano de lançamento e géneros -->
               {{ movie.release_date ? (movie.release_date | slice:0:4) : '' }}
               <span *ngIf="movie.genre_ids && generos.length">
                 • {{ getGenerosNomes(movie) }}
@@ -56,6 +63,7 @@
             </ion-card-subtitle>
           </ion-card-header>
           <ion-card-content>
+            <!-- Mostra onde ver o filme em streaming -->
             <div *ngIf="movie.watch_providers?.PT">
               <strong>Onde ver:</strong>
               <span *ngFor="let p of movie.watch_providers.PT.flatrate">
@@ -68,6 +76,7 @@
     </ion-row>
   </ion-grid>
 
+  <!-- Infinite scroll para carregar mais filmes -->
   <ion-infinite-scroll threshold="100px" (ionInfinite)="carregarMaisFilmes($event)" *ngIf="paginaAtual < totalPaginas">
     <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="A carregar mais filmes..."></ion-infinite-scroll-content>
   </ion-infinite-scroll>

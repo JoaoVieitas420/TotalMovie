@@ -5,10 +5,14 @@
 </ion-header>
 
 <ion-content class="ion-padding">
+  <!-- Barra de pesquisa para procurar filmes por título -->
   <ion-searchbar [(ngModel)]="query" (ionInput)="procurar()" placeholder="Procurar por título"></ion-searchbar>
 
+  <!-- Lista de resultados da pesquisa -->
   <ion-list *ngIf="resultados.length > 0">
+    <!-- Cada resultado é um item clicável que leva à página de detalhes do filme -->
     <ion-item *ngFor="let filme of resultados" [routerLink]="['/movie-detail', filme.imdbID]">
+      <!-- Mostra o poster do filme ou uma imagem de fallback -->
       <ion-thumbnail slot="start">
         <img [src]="filme.Poster !== 'N/A' ? filme.Poster : 'assets/defaultmovie.jpg'" />
       </ion-thumbnail>

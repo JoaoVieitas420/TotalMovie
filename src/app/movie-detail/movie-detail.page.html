@@ -1,35 +1,43 @@
 <ion-header>
   <ion-toolbar>
     <ion-buttons slot="start">
+      <!-- Botão para voltar à página anterior -->
       <ion-back-button defaultHref="/tabs/home"></ion-back-button>
     </ion-buttons>
+    <!-- Título do filme ou "Detalhes" se não houver título -->
     <ion-title>{{ movie?.Title || 'Detalhes' }}</ion-title>
   </ion-toolbar>
 </ion-header>
 
+<!-- Mostra o conteúdo apenas quando não está a carregar -->
 <ion-content *ngIf="!isLoading" class="ion-padding">
   <div class="card-center-wrapper">
     <ion-card>
+      <!-- Poster do filme (com fallback se não existir) -->
       <img [src]="movie.Poster !== 'N/A' ? movie.Poster : 'assets/defaultmovie.jpg'" />
       <ion-card-header>
         <div style="display: flex; align-items: center; justify-content: space-between;">
           <div>
+            <!-- Título e informações principais do filme -->
             <ion-card-title>{{ movie.Title }}</ion-card-title>
             <ion-card-subtitle>{{ movie.Year }} • {{ movie.Runtime }}</ion-card-subtitle>
           </div>
+          <!-- Botão para adicionar o filme a uma lista -->
           <ion-button fill="solid" color="totalmovie" shape="round" size="medium" (click)="abrirAdicionarLista()">
             <ion-icon name="add" slot="icon-only"></ion-icon>
           </ion-button>
         </div>
       </ion-card-header>
       <ion-card-content>
+        <!-- Avaliação IMDb -->
         <p class="imdb-rating"><strong>IMDb:</strong> {{ movie.imdbRating }}/10</p>
+        <!-- Género, realizador, atores e enredo -->
         <p><strong>Género:</strong> {{ movie.Genre }}</p>
         <p><strong>Realizador:</strong> {{ movie.Director }}</p>
         <p><strong>Atores:</strong> {{ movie.Actors }}</p>
         <p><strong>Enredo:</strong> {{ movie.Plot }}</p>
 
-        <!-- Serviços de Streaming -->
+        <!-- Secção de serviços de streaming -->
         <div *ngIf="streamingProviders.length > 0" class="where-to-watch-section">
           <h3 class="where-title">Onde ver em streaming</h3>
           <div *ngFor="let provider of streamingProviders" class="provider-box">
@@ -43,7 +51,7 @@
           </div>
         </div>
 
-        <!-- Serviços de Aluguer -->
+        <!-- Secção de serviços de aluguer -->
         <div *ngIf="rentProviders.length > 0" class="where-to-watch-section">
           <h3 class="where-title">Onde alugar online</h3>
           <div *ngFor="let provider of rentProviders" class="provider-box">
@@ -57,7 +65,7 @@
           </div>
         </div>
 
-        <!-- Serviços de Compra -->
+        <!-- Secção de serviços de compra -->
         <div *ngIf="buyProviders.length > 0" class="where-to-watch-section">
           <h3 class="where-title">Onde comprar online</h3>
           <div *ngFor="let provider of buyProviders" class="provider-box">
@@ -71,6 +79,7 @@
           </div>
         </div>
 
+        <!-- Mensagem caso não haja nenhum serviço disponível -->
         <div *ngIf="streamingProviders.length === 0 && rentProviders.length === 0 && buyProviders.length === 0" class="no-streaming">
           <h3 class="where-title">Onde ver</h3>
           <div>Não disponível em streaming, aluguer ou compra online em Portugal.</div>
@@ -80,6 +89,7 @@
   </div>
 </ion-content>
 
+<!-- Mostra um spinner enquanto está a carregar -->
 <ion-content *ngIf="isLoading">
   <ion-spinner class="center-spinner"></ion-spinner>
 </ion-content>

@@ -2,6 +2,7 @@
   <ion-toolbar>
     <ion-title>TotalMovie</ion-title>
     <ion-buttons slot="end">
+      <!-- Botão de pesquisa que navega para a página de pesquisa -->
       <ion-button (click)="navegarParaPesquisa()">
         <ion-icon name="search" slot="icon-only" color="totalmovie"></ion-icon>
       </ion-button>
@@ -10,16 +11,19 @@
 </ion-header>
 
 <ion-content [fullscreen]="true" class="ion-padding">
+  <!-- Botão para criar uma nova playlist -->
   <ion-button expand="block" size="large" shape="round" class="criar-btn" (click)="abrirCriarPlaylist()" color="totalmovie">
     <ion-icon name="add" slot="start"></ion-icon>
     Nova Playlist
   </ion-button>
 
   <div class="playlists-wrapper">
+    <!-- Lista de playlists existentes -->
     <ion-card *ngFor="let playlist of playlists; let i = index" class="playlist-card">
       <ion-card-header>
         <ion-card-title>
           {{ playlist.nome }}
+          <!-- Botão para remover a playlist -->
           <ion-button fill="clear" color="danger" size="small" class="delete-btn" (click)="removerPlaylist(i)">
             <ion-icon name="trash"></ion-icon>
           </ion-button>
@@ -27,11 +31,14 @@
       </ion-card-header>
       <ion-card-content>
         <ion-list lines="none">
+          <!-- Mensagem quando a playlist está vazia -->
           <ion-item *ngIf="playlist.filmes.length === 0" class="empty-list">
             <ion-label color="medium">Nenhum filme nesta lista.</ion-label>
           </ion-item>
+          <!-- Lista de filmes da playlist -->
           <ion-item *ngFor="let film of playlist.filmes; let j = index" class="film-item">
             <ion-label>{{ film.Title }}</ion-label>
+            <!-- Botão para remover filme da playlist -->
             <ion-button fill="clear" color="danger" slot="end" size="small" (click)="removerFilmeDaPlaylist(i, j)">
               <ion-icon name="trash"></ion-icon>
             </ion-button>

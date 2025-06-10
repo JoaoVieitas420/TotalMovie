@@ -10,9 +10,9 @@ import { OmdbService } from '../services/omdb.service';
   standalone: false,
 })
 export class HomePage implements OnInit {
-  destaques: any[] = [];
-  populares: any[] = [];
-  isLoading = true;
+  destaques: any[] = []; // Filmes em destaque (lançamentos)
+  populares: any[] = []; // Filmes populares
+  isLoading = true;      // Estado de carregamento
 
   constructor(
     public router: Router,
@@ -21,9 +21,10 @@ export class HomePage implements OnInit {
   ) {}
 
   ngOnInit() {
-    // Lançamentos (now playing)
+    // Carrega os lançamentos (now playing) do TMDB
     this.movieService.getNowPlaying().subscribe((res: any) => {
       const tmdbMovies = res.results || [];
+      // Para cada filme, tenta obter detalhes do OMDb usando o imdb_id
       Promise.all(
         tmdbMovies.map((movie: any) =>
           movie.imdb_id
@@ -35,14 +36,16 @@ export class HomePage implements OnInit {
               )
         )
       ).then((movies: any[]) => {
+        // Guarda apenas filmes válidos
         this.destaques = movies.filter(m => m && m.Response !== 'False');
         this.isLoading = false;
       });
     });
 
-    // Populares
+    // Carrega os filmes populares do TMDB
     this.movieService.getPopular().subscribe((res: any) => {
       const tmdbMovies = res.results || [];
+      // Para cada filme, tenta obter detalhes do OMDb usando o imdb_id
       Promise.all(
         tmdbMovies.map((movie: any) =>
           movie.imdb_id
@@ -54,11 +57,13 @@ export class HomePage implements OnInit {
               )
         )
       ).then((movies: any[]) => {
+        // Guarda apenas filmes válidos
         this.populares = movies.filter(m => m && m.Response !== 'False');
       });
     });
   }
 
+  // Navega para a página de detalhes do filme ao clicar num card
   verDetalhes(imdbID: string) {
     this.router.navigate(['/movie-detail', imdbID]);
   }

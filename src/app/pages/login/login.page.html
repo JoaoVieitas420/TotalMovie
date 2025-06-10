@@ -1,9 +1,11 @@
 <ion-content class="ion-padding login-content">
   <div class="auth-wrapper">
     <div class="auth-card">
+      <!-- Título e mensagem de boas-vindas -->
       <h1>Bem-vindo de volta</h1>
       <p>Inicia sessão na tua conta para continuares</p>
 
+      <!-- Campo de email com validação visual -->
       <ion-item lines="inset" class="auth-input" [class.invalid]="emailTouched && !isEmailValid(email)">
         <ion-label position="floating">Email</ion-label>
         <ion-input
@@ -13,8 +15,10 @@
           (ionBlur)="emailTouched = true">
         </ion-input>
       </ion-item>
+      <!-- Mensagem de erro para email inválido -->
       <small *ngIf="emailTouched && !isEmailValid(email)" class="error-msg">Email inválido</small>
 
+      <!-- Campo de password com validação visual -->
       <ion-item lines="inset" class="auth-input" [class.invalid]="passwordTouched && !isPasswordValid(password)">
         <ion-label position="floating">Palavra-passe</ion-label>
         <ion-input
@@ -23,13 +27,16 @@
           (ionBlur)="passwordTouched = true">
         </ion-input>
       </ion-item>
+      <!-- Mensagem de erro para password inválida -->
       <small *ngIf="passwordTouched && !isPasswordValid(password)" class="error-msg">A palavra-passe deve ter pelo menos 6 caracteres</small>
 
+      <!-- Botão de login, só ativo se o formulário for válido -->
       <ion-button shape="round" size="default" (click)="login()" class="auth-button" [disabled]="!isFormValid()" color="totalmovie">
         <ion-icon slot="start" name="log-in-outline"></ion-icon>
         Entrar
       </ion-button>
 
+      <!-- Link para registo caso o utilizador não tenha conta -->
       <div class="auth-footer">
         <p>Não tens conta? <a routerLink="/register">Regista-te</a></p>
       </div>
